@@ -126,9 +126,10 @@ else:
     # #################
     # # 發送LineNotify訊息 #
     # #################
-    notify_Post_Url = 'https://notify-api.line.me/api/notify'     # Line API網址
-    notify_token = 'Bearer myToken'
-    lineMsg = '\n' + '通知：' + str(t_today) + '有新郵件！\n' + logMsg
+    notify_Post_Url = 'https://notify-api.line.me/api/notify'      # Line API網址
+    notify_token = 'Bearer myToken'                                # 文筆群組
+    lineMsg = '\n' + '通知：' + str(t_today) + '有新郵件！\n'
+    lineMsg += '==========\n' + logMsg
     headers = {'Authorization': notify_token}
     FormData = {'message': lineMsg}
     res = requests.post(notify_Post_Url, headers=headers, params=FormData)
