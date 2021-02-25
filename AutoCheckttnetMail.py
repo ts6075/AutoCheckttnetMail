@@ -6,6 +6,7 @@
 # 版本記錄
 # v1.0 - 20190309 - 初版
 # v1.1 - 20190312 - 修正寫檔編碼問題
+# v1.2 - 20190426 - 修改為只讀取未讀Email
 # #################
 # #################
 # # 爬蟲所用       #
@@ -101,7 +102,18 @@ for ele in list_search:
     ele_Date = ele_Date.split('-')                            # 切成 0:年, 1:月, 2:日
     ele_Year = int(ele_Date[0])                               # 取得 年
 
-    if (ele_Year >= 2019):                                    # 只讀取2019年以後
+    # #################
+    # # 只顯示未讀Email #
+    # mail1: 未讀
+    # mail2: 已讀
+    # mail3: 已回覆
+    # #################
+    ele_status = ele[1].select_one('img').get('src')          # 取得Email狀態
+    ele_status = ele_status.split('/')[-1]                    # 取得img檔名, 用/切割路徑, 取最後一個元素即為檔名
+    # print(ele_status)
+
+    # if (ele_Year >= 2019):                                  # 只讀取2019年以後
+    if (ele_status == "mail1.gif"):                           # 只讀取未讀Email
         for e in ele[2:6]:                                    # 2 <= 讀取 < 6
             e = e.text.replace(' ', '').replace('\r', '').replace('\n', '')
             print(e)
