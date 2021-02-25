@@ -7,6 +7,7 @@
 # v1.0 - 20190309 - 初版
 # v1.1 - 20190312 - 修正寫檔編碼問題
 # v1.2 - 20190426 - 修改為只讀取未讀Email
+# v1.3 - 20190427 - 加入LineNotify功能
 # #################
 # #################
 # # 爬蟲所用       #
@@ -110,7 +111,6 @@ for ele in list_search:
             logMsg += e + '\t'
         logMsg += '\n'
         newEmail = bool(1)                                    # 表示有新信件
-writeTxt('文筆信件.txt', logMsg, 'a')                          # 寫入查詢結果
 
 # #################
 # # 若本次執行沒有新Email,就刪除整個資料夾 #
@@ -119,3 +119,16 @@ if (not newEmail):
     if (os.path.exists('./文筆')):  # 判斷資料夾是否存在
         shutil.rmtree('./文筆')     # Delete folder
         print('\n本次執行沒有新的Email')
+else:
+    print(logMsg)
+    writeTxt('文筆信件.txt', logMsg, 'a')                          # 寫入查詢結果
+
+    # #################
+    # # 發送LineNotify訊息 #
+    # #################
+    notify_Post_Url = 'https://notify-api.line.me/api/notify'     # Line API網址
+    notify_token = 'Bearer myToken'
+    lineMsg = '\n' + '通知：' + str(t_today) + '有新郵件！\n' + logMsg
+    headers = {'Authorization': notify_token}
+    FormData = {'message': lineMsg}
+    res = requests.post(notify_Post_Url, headers=headers, params=FormData)
