@@ -95,14 +95,6 @@ for ele in list_search:
     ele = ele.select('td')
 
     # #################
-    # # 只顯示指定日期以後Email #
-    # #################
-    ele_Date = ele[5].text                                    # 取得Email日期
-    ele_Date = ele_Date.replace(' ', '').replace('\r\n', '')  # 去除空白
-    ele_Date = ele_Date.split('-')                            # 切成 0:年, 1:月, 2:日
-    ele_Year = int(ele_Date[0])                               # 取得 年
-
-    # #################
     # # 只顯示未讀Email #
     # mail1: 未讀
     # mail2: 已讀
@@ -112,7 +104,6 @@ for ele in list_search:
     ele_status = ele_status.split('/')[-1]                    # 取得img檔名, 用/切割路徑, 取最後一個元素即為檔名
     # print(ele_status)
 
-    # if (ele_Year >= 2019):                                  # 只讀取2019年以後
     if (ele_status == "mail1.gif"):                           # 只讀取未讀Email
         for e in ele[2:6]:                                    # 2 <= 讀取 < 6
             e = e.text.replace(' ', '').replace('\r', '').replace('\n', '')
