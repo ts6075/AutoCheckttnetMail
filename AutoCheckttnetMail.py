@@ -5,6 +5,7 @@
 # 程式目的: 爬取文筆信箱是否有新Email
 # 版本記錄
 # v1.0 - 20190309 - 初版
+# v1.1 - 20190312 - 修正寫檔編碼問題
 # #################
 # #################
 # # 爬蟲所用       #
@@ -28,8 +29,10 @@ def writeTxt(fileName, msg, mode):
 
     # #################
     # # 開檔,設定編碼,寫檔,關檔 #
+    # 預設是utf-8, 但open的encoding會因平台不同而不同
+    # 所以建議還是加一下 encoding='utf8'
     # #################
-    f = open('./文筆/' + fileName, mode)  # Create and Open file
+    f = open('./文筆/' + fileName, mode, encoding='utf8')  # Create and Open file
     f.write(msg)                         # Write file
     f.close()                            # Close file
     return
