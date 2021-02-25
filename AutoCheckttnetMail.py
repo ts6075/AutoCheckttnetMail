@@ -86,6 +86,7 @@ writeTxt('文筆信件.txt', '-----------\n', 'a')
 # #################
 # # 解析每封Email  #
 # #################
+logMsg = ''           # 記錄待寫入之訊息 (記錄Email資訊)
 newEmail = bool(0)    # 記錄是否有新信件, True:有, False:無
 for ele in list_search:
     # #################
@@ -102,15 +103,14 @@ for ele in list_search:
     # #################
     ele_status = ele[1].select_one('img').get('src')          # 取得Email狀態
     ele_status = ele_status.split('/')[-1]                    # 取得img檔名, 用/切割路徑, 取最後一個元素即為檔名
-    # print(ele_status)
 
     if (ele_status == "mail1.gif"):                           # 只讀取未讀Email
         for e in ele[2:6]:                                    # 2 <= 讀取 < 6
             e = e.text.replace(' ', '').replace('\r', '').replace('\n', '')
-            print(e)
-            writeTxt('文筆信件.txt', e + '\t', 'a')
-        writeTxt('文筆信件.txt', '\n', 'a')
+            logMsg += e + '\t'
+        logMsg += '\n'
         newEmail = bool(1)                                    # 表示有新信件
+writeTxt('文筆信件.txt', logMsg, 'a')                          # 寫入查詢結果
 
 # #################
 # # 若本次執行沒有新Email,就刪除整個資料夾 #
